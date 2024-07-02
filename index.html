@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="manifest" href="manifest.json">
+    <title>cool clock</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <h1 id="time"></h1>
+    </div>
+
+    <script>
+        function updateClock() {
+            const nowTime = new Date(); // 現在日時を得る
+            const nowHour = nowTime.getHours(); // 時を抜き出す
+            const nowMin  = nowTime.getMinutes(); // 分を抜き出す
+            const nowSec  = nowTime.getSeconds(); // 秒を抜き出す
+            const msg = nowHour + ":" + ("0" + nowMin).slice(-2) + ":" + ("0" + nowSec).slice(-2) ;
+            document.getElementById("time").innerHTML = msg;
+        }
+
+        // 初回実行
+        updateClock();
+        // 1秒ごとにupdateClockを実行
+        setInterval(updateClock, 1000);
+    </script>
+    
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('sw.js').then(function(registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
